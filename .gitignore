@@ -1,0 +1,42 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Go module files
+vendor/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Log and debug files
+*.log
+*.tmp
+*.bak
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+/bin/
+aoc-2024
+
+# Local environment variables
+.env
+.env.*
+
+# Go-specific temporary files
+*.prof
+*.sum
+
