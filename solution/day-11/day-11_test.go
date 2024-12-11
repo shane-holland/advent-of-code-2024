@@ -8,7 +8,7 @@ import (
 )
 
 const PART_1_EXPECTED = "55312"
-const PART_2_EXPECTED = ""
+const PART_2_EXPECTED = "65601038650482"
 const PUZZLE_INPUT_PATH = "../../data/day-11/test.txt"
 
 func TestPart1(t *testing.T) {
