@@ -7,8 +7,8 @@ import (
 	"shaneholland.dev/aoc-2024/util"
 )
 
-const PART_1_EXPECTED = "Not Implemented"
-const PART_2_EXPECTED = "Not Implemented"
+const PART_1_EXPECTED = "1930"
+const PART_2_EXPECTED = "1206"
 const PUZZLE_INPUT_PATH = "../../data/day-12/test.txt"
 
 func TestPart1(t *testing.T) {
