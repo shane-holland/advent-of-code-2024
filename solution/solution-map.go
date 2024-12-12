@@ -12,6 +12,7 @@ import (
 	day09 "shaneholland.dev/aoc-2024/solution/day-09"
 	day10 "shaneholland.dev/aoc-2024/solution/day-10"
 	day11 "shaneholland.dev/aoc-2024/solution/day-11"
+	day12 "shaneholland.dev/aoc-2024/solution/day-12"
 )
 
 /**
@@ -29,4 +30,5 @@ var Solutions = map[string]Solution{
 	"day-09": day09.Puzzle{},
 	"day-10": day10.Puzzle{},
 	"day-11": day11.Puzzle{},
+	"day-12": day12.Puzzle{},
 }

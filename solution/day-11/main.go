@@ -86,9 +86,6 @@ func (g *StoneGraph) getEdges(node string) []string {
    	} else {
 	   edges = append(edges, strconv.Itoa(util.AtoI(node) * 2024))
    	}
-   	if len(node) <= 4 {
-	   g.Graph[node] = edges
-   	}
 	return edges
 }
 
