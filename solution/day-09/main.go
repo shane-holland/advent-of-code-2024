@@ -1,3 +1,6 @@
+/* -------------------------------------------------------------------------- */
+/*                       --- Day 9: Disk Fragmenter ---                       */
+/* -------------------------------------------------------------------------- */
 package day09
 
 import (
@@ -13,74 +16,38 @@ func (d Puzzle) Solve(input string) (string, string) {
 	return part1(input), part2(input)
 }
 
-/**
- * Function to find the minimum of two integers.
- */
+// Part 1: Calculate the checksum of the disk map after a simple defrag.
 func part1(input string) string {
 	diskMap := parseDiskMap(input)
 	diskMap.BlockDefrag(false)
 	return fmt.Sprintf("%d", diskMap.Checksum())
 }
 
-/**
- * Function to find the minimum of two integers.
- */
+// Part 2: Calculate the checksum of the disk map after a file based defrag.
 func part2(input string) string {
 	diskMap := parseDiskMap(input)
 	diskMap.BlockDefrag(true)
 	return fmt.Sprintf("%d", diskMap.Checksum())
 }
 
-/**
- * Struct to represent a file
- */
+/* ----------------------------- File Definition ---------------------------- */
+// File represents a file on the disk.
 type File struct {
-	// The file id
 	Id int
-	// The file size
 	Size int
 }
 
-/**
- * Struct to represent a disk map
- */
+/* --------------------- DiskMap Definition and Methods --------------------- */
+// DiskMap represents a disk map with files and free space.
 type DiskMap struct {
-	// The original diskmap string
-	Map string
-	// Map of file positions to file objects
 	Files map[int]File
-	// Map of free space positions to free space sizes
 	FreeSpace map[int]int
 }
 
-/**
- * Function to parse the input into a DiskMap
- */
-func parseDiskMap(input string) DiskMap {
-	diskMap := DiskMap{
-		Map:       input,
-		Files:     make(map[int]File),
-		FreeSpace: make(map[int]int),
-	}
 
-	position := 0
 
-	for i, c := range input {
-		size := util.AtoI(string(c))
-
-		if (i % 2) == 0 {
-			diskMap.Files[position] = File{Id: i / 2, Size: size}
-		} else if size > 0 {
-			diskMap.FreeSpace[position] = size
-		}
-		position += size
-	}
-	return diskMap
-}
-
-/**
- * Returns a sorted list of file positions
- */
+// Returns a sorted list of file positions.
+// If reverse is true, the list is sorted in reverse order (descending).
 func (diskMap *DiskMap) sortedFilePositions(reverse bool) []int {
 	filePositions := make([]int, 0)
 	for pos := range diskMap.Files {
@@ -96,9 +63,7 @@ func (diskMap *DiskMap) sortedFilePositions(reverse bool) []int {
 	return filePositions
 }
 
-/**
- * Returns a sorted list of free space positions
- */
+// Returns list of free space positions sorted by position.
 func (diskMap *DiskMap) sortedFreeSpacePositions() []int {
 	freeSpacePositions := make([]int, 0)
 	for pos := range diskMap.FreeSpace {
@@ -109,9 +74,7 @@ func (diskMap *DiskMap) sortedFreeSpacePositions() []int {
 	return freeSpacePositions
 }
 
-/**
- * Generates a checksum for the disk map
- */
+// Returns the checksum of the disk map.
 func (diskMap *DiskMap) Checksum() int {
 	checksum := 0
 
@@ -126,9 +89,9 @@ func (diskMap *DiskMap) Checksum() int {
 	return checksum
 }
 
-/**
- * Simple defrag which moves individual file blocks from the rightmost files to the first available free space
- */
+// Defragments the disk map.
+// If wholeFiles is true, the defrag will move whole files to free space.
+// Otherwise, it will move the blocks that can fit in the free space.
 func (diskMap *DiskMap) BlockDefrag(wholeFiles bool) {
 	for _, pos := range diskMap.sortedFilePositions(true) {
 		fileId := diskMap.Files[pos].Id
@@ -159,6 +122,7 @@ func (diskMap *DiskMap) BlockDefrag(wholeFiles bool) {
 	}
 }
 
+// Moves a file to a free space position
 func (diskMap *DiskMap) moveFileToFreeSpace(filePos int, freePos int) {
 	freeSize := diskMap.FreeSpace[freePos]
 	fileSize := diskMap.Files[filePos].Size
@@ -170,4 +134,28 @@ func (diskMap *DiskMap) moveFileToFreeSpace(filePos int, freePos int) {
 	if freeSize-fileSize == 0 {
 		delete(diskMap.FreeSpace, freePos+fileSize)
 	}
+}
+
+/* ----------------------------- Helper Methods ----------------------------- */
+
+// Parses a disk map from the input string
+ func parseDiskMap(input string) DiskMap {
+	diskMap := DiskMap{
+		Files:     make(map[int]File),
+		FreeSpace: make(map[int]int),
+	}
+
+	position := 0
+
+	for i, c := range input {
+		size := util.AtoI(string(c))
+
+		if (i % 2) == 0 {
+			diskMap.Files[position] = File{Id: i / 2, Size: size}
+		} else if size > 0 {
+			diskMap.FreeSpace[position] = size
+		}
+		position += size
+	}
+	return diskMap
 }

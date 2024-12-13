@@ -1,3 +1,6 @@
+/* -------------------------------------------------------------------------- */
+/*                         --- Day 4: Ceres Search ---                        */
+/* -------------------------------------------------------------------------- */
 package day04
 
 import (
@@ -14,9 +17,7 @@ func (d Puzzle) Solve(input string) (string, string) {
 	return part1(input), part2(input)
 }
 
-/**
- * Function to find the minimum of two integers.
- */
+// Part 1: Count the number of instances of the string "XMAS" (forward or reversed) in the word puzzle
 func part1(input string) string {
 	instances := 0
 	// Horizontal
@@ -31,9 +32,7 @@ func part1(input string) string {
 	return fmt.Sprintf("%d", instances)
 }
 
-/**
- * Function to find the minimum of two integers.
- */
+// Part 2: Count the number of instances where MAS appears (forward or reversed) in an X pattern in the word puzzle
 func part2(input string) string {
 	matrix := util.GetLines(input)
 	instances := 0
@@ -51,6 +50,8 @@ func part2(input string) string {
 
 	return fmt.Sprintf("%d", instances)
 }
+
+/* ----------------------------- Helper Methods ----------------------------- */
 
 // Returns the number of instances of the string "XMAS" (forward or reversed) in the input string array
 func countInstancesXmas(lines []string) int {

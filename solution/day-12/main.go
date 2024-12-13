@@ -17,14 +17,14 @@ func (d Puzzle) Solve(input string) (string, string) {
 }
 
 
-// Return the cost of fencing in the garden. (Perimeter * Area)
+// Part 1: Return the cost of fencing in the garden. (Perimeter * Area)
 func part1(input string) string {
 	garden := parseGarden(input)
 	return fmt.Sprintf("%d", garden.GetFencingCost(false))
 }
 
 
-// Return the cost of fencing in the garden with a bulk discount. (Sides * Area) 
+// Part 2: Return the cost of fencing in the garden with a bulk discount. (Sides * Area) 
 func part2(input string) string {
 	garden := parseGarden(input)
 	return fmt.Sprintf("%d", garden.GetFencingCost(true))
@@ -35,7 +35,7 @@ func part2(input string) string {
 // Garden represents a collection of regions.
 // Each region is a collection of plots.
 type Garden struct {
-	Regions map[string]Region
+	Regions []Region
 }
 
 // GetFencingCost returns the cost of fencing in the garden.
@@ -63,16 +63,11 @@ type Region struct {
 // FencingCost returns the cost of fencing in the region.
 // If bulkDiscount is true, then the cost is calculated as Sides * Area.
 // Otherwise, the cost is calculated as Perimeter * Area.
-func (r Region) FencingCost(bulkDiscount bool) int {
-	sum := 0
-	for _, region := range r.GetSubRegions() {
-		if bulkDiscount {
-			sum += region.CountSides() * region.GetArea()
-		} else {
-			sum += region.GetPerimeter() * region.GetArea()
-		}
-	}
-	return sum
+func (region Region) FencingCost(bulkDiscount bool) int {
+	if bulkDiscount {
+		return region.CountSides() * region.GetArea()
+	} 
+	return region.GetPerimeter() * region.GetArea()
 }
 
 // GetArea returns the number of plots in the region.
@@ -149,7 +144,7 @@ func (r Region) countInteriorCorners(node util.Point) int {
 
 // GetSubRegions returns a list of sub-regions within the current region.
 // Each sub-region is a connected component of plots within the region.
-func (r Region) GetSubRegions() []Region {
+func (r Region) GetComponentRegions() []Region {
 	subRegions := []Region{}
 	untested := slices.Clone(r.Plots)
 
@@ -204,21 +199,28 @@ func parseGarden(input string) Garden {
         return edges
     }
 
-    regions := make(map[string]Region)
+    regionMap := make(map[string]Region)
 
     for y, line := range lines {
         for x, char := range line {
             region := string(char)
             plot := util.Point{X: x, Y: y}
-            if _, ok := regions[region]; !ok {
-                regions[region] = Region{Plots: []util.Point{}, Graph: map[util.Point][]util.Point{}}
+            if _, ok := regionMap[region]; !ok {
+                regionMap[region] = Region{Plots: []util.Point{}, Graph: map[util.Point][]util.Point{}}
             }
-            r := regions[region]
+            r := regionMap[region]
             r.Plots = append(r.Plots, plot)
             r.Graph[plot] = getEdges(plot)
-            regions[region] = r
+            regionMap[region] = r
         }
     }
+
+	// There may be multiple regions of the same type in the Garden.
+	// Break them into their connected components.
+	regions := []Region{}
+	for _, region := range regionMap {
+		regions = append(regions, region.GetComponentRegions()...)
+	}
 
     return Garden{Regions: regions}
 }

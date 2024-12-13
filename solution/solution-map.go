@@ -1,3 +1,6 @@
+/* -------------------------------------------------------------------------- */
+/*                                Solution Map                                */
+/* -------------------------------------------------------------------------- */
 package solution
 
 import (
@@ -15,20 +18,24 @@ import (
 	day12 "shaneholland.dev/aoc-2024/solution/day-12"
 )
 
-/**
- * Solutions is a map of all the solutions to the Advent of Code problems.
- */
-var Solutions = map[string]Solution{
-	"day-01": day01.Puzzle{},
-	"day-02": day02.Puzzle{},
-	"day-03": day03.Puzzle{},
-	"day-04": day04.Puzzle{},
-	"day-05": day05.Puzzle{},
-	"day-06": day06.Puzzle{},
-	"day-07": day07.Puzzle{},
-	"day-08": day08.Puzzle{},
-	"day-09": day09.Puzzle{},
-	"day-10": day10.Puzzle{},
-	"day-11": day11.Puzzle{},
-	"day-12": day12.Puzzle{},
+// Solver is a struct that contains the Solution and an icon for the Advent of Code problem.
+type Solver struct {
+	Solution Solution
+	Icon string
+}
+
+// Solutions is a map of Solvers to the Advent of Code problems.
+var Solutions = map[string]Solver {
+	"day-01": {day01.Puzzle{}, "🕵"},
+	"day-02": {day02.Puzzle{}, "🦌"},
+	"day-03": {day03.Puzzle{}, "🧮"},
+	"day-04": {day04.Puzzle{}, "🔎"},
+	"day-05": {day05.Puzzle{}, "🖨️"},
+	"day-06": {day06.Puzzle{}, "💂"},
+	"day-07": {day07.Puzzle{}, "🌉"},
+	"day-08": {day08.Puzzle{}, "📡"},
+	"day-09": {day09.Puzzle{}, "💾"},
+	"day-10": {day10.Puzzle{}, "🥾"},
+	"day-11": {day11.Puzzle{}, "🪨"},
+	"day-12": {day12.Puzzle{}, "🪴"},
 }

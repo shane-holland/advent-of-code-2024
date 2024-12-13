@@ -1,3 +1,6 @@
+/* -------------------------------------------------------------------------- */
+/*                    --- Day 8: Resonant Collinearity ---                    */
+/* -------------------------------------------------------------------------- */
 package day08
 
 import (
@@ -16,45 +19,28 @@ func (d Puzzle) Solve(input string) (string, string) {
 	return part1(antennaMap), part2(antennaMap)
 }
 
-/**
- * Function to find the minimum of two integers.
- */
+// Part 1: Count the number of antinodes in the antenna map.
 func part1(antennaMap AntennaMap) string {
 	antinodes := antennaMap.CountAntinodes(false)
 	return fmt.Sprintf("%d", antinodes)
 }
 
-/**
- * Function to find the minimum of two integers.
- */
+// Part 2: Count the number of antinodes in the antenna map with resonant harmonics.
 func part2(antennaMap AntennaMap) string {
 	antinodes := antennaMap.CountAntinodes(true)
 	return fmt.Sprintf("%d", antinodes)
 }
 
-func parseAntennaMap(input string) AntennaMap {
-	antennas := make(map[string][]util.Point)
-	inputLines := util.GetLines(input)
+/* -------------------- AntennaMap Definition and Methods ------------------- */
 
-	pattern := `(\d|\w)`
-	re := regexp.MustCompile(pattern)
-
-	for y, line := range inputLines {
-		matches := re.FindAllStringIndex(line, -1)
-
-		for _, match := range matches {
-			x := match[0]
-			antennas[line[x:x+1]] = append(antennas[line[x:x+1]], util.Point{X: x, Y: y})
-		}
-	}
-	return AntennaMap{Antennas: antennas, Bounds: util.Point{X: len(inputLines[0]), Y: len(inputLines)}}
-}
-
+// AntennaMap represents a map of antennas and their corresponding points.
 type AntennaMap struct {
 	Antennas map[string][]util.Point
 	Bounds   util.Point
 }
 
+// CountAntinodes returns the number of antinodes in the antenna map.
+// If resonantHarmonics is true, then the antinodes are calculated with resonant harmonics.
 func (a *AntennaMap) CountAntinodes(resonantHarmonics bool) int {
 	antinodes := make(map[util.Point]struct{})
 
@@ -78,10 +64,12 @@ func (a *AntennaMap) CountAntinodes(resonantHarmonics bool) int {
 	return len(antinodes)
 }
 
+// pointInBounds returns true if the point is within the bounds of the antenna map.
 func (a *AntennaMap) pointInBounds(point util.Point) bool {
 	return point.X >= 0 && point.Y >= 0 && point.X < a.Bounds.X && point.Y < a.Bounds.Y
 }
 
+// getTwoAntinodes returns the two antinodes of two points.
 func (a *AntennaMap) getTwoAntinodes(p1, p2 util.Point) []util.Point {
 	antinodes := make([]util.Point, 0)
 
@@ -96,6 +84,8 @@ func (a *AntennaMap) getTwoAntinodes(p1, p2 util.Point) []util.Point {
 	return antinodes
 }
 
+// getAllAntinodes returns all antinodes between two points.
+// The antinodes are calculated with resonant harmonics.
 func (a *AntennaMap) getAllAntinodes(p1, p2 util.Point) []util.Point {
 	antinodes := make([]util.Point, 0)
 	antinodes = append(antinodes, []util.Point{p1, p2}...)
@@ -122,20 +112,36 @@ func (a *AntennaMap) getAllAntinodes(p1, p2 util.Point) []util.Point {
 	return antinodes
 }
 
-/*
-Returns the greatest common divisor of two numbers
-*/
+/* ----------------------------- Helper Methods ----------------------------- */
+
+// Parses an antenna map from the input string
+func parseAntennaMap(input string) AntennaMap {
+	antennas := make(map[string][]util.Point)
+	inputLines := util.GetLines(input)
+
+	pattern := `(\d|\w)`
+	re := regexp.MustCompile(pattern)
+
+	for y, line := range inputLines {
+		matches := re.FindAllStringIndex(line, -1)
+
+		for _, match := range matches {
+			x := match[0]
+			antennas[line[x:x+1]] = append(antennas[line[x:x+1]], util.Point{X: x, Y: y})
+		}
+	}
+	return AntennaMap{Antennas: antennas, Bounds: util.Point{X: len(inputLines[0]), Y: len(inputLines)}}
+}
+
+// Returns the greatest common divisor of two numbers
 func gcd(num1 int, num2 int) int {
-	done := false
 	n1 := int(math.Max(math.Abs(float64(num1)), math.Abs(float64(num2))))
 	n2 := int(math.Min(math.Abs(float64(num1)), math.Abs(float64(num2))))
 
-	for !done {
+	for {
 		if n1%n2 == 0 {
 			return n2
 		}
 		n1, n2 = n2, n1%n2
 	}
-
-	return 1
 }

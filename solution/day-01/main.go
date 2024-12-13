@@ -1,3 +1,6 @@
+/* -------------------------------------------------------------------------- */
+/*                      --- Day 1: Historian Hysteria ---                     */
+/* -------------------------------------------------------------------------- */
 package day01
 
 import (
@@ -16,9 +19,7 @@ func (d Puzzle) Solve(input string) (string, string) {
 	return part1(left, right), part2(left, right)
 }
 
-/**
- * Function to find the minimum of two integers.
- */
+// Part 1: Find the distance between the two arrays.
 func part1(left, right []int) string {
 	max := min(len(left), len(right))
 
@@ -30,9 +31,7 @@ func part1(left, right []int) string {
 	return strconv.Itoa(distance)
 }
 
-/**
- * Function to find the minimum of two integers.
- */
+// Part 2: Find the similarity between the two arrays.
 func part2(left, right []int) string {
 	similarity := 0
 
@@ -52,6 +51,8 @@ func part2(left, right []int) string {
 
 	return strconv.Itoa(similarity)
 }
+
+/* ----------------------------- Helper Methods ----------------------------- */
 
 // Function to parse the input into two arrays of integers
 func parseInput(input string) (left []int, right []int) {

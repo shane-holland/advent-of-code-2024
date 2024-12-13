@@ -1,3 +1,6 @@
+/* -------------------------------------------------------------------------- */
+/*                      --- Day 2: Red-Nosed Reports ---                      */
+/* -------------------------------------------------------------------------- */
 package day02
 
 import (
@@ -13,9 +16,7 @@ func (d Puzzle) Solve(input string) (string, string) {
 	return part1(input), part2(input)
 }
 
-/**
- * Solve for Part 1
- */
+// Part 1: Find the number of safe reports.
 func part1(input string) string {
 	safeReports := 0
 
@@ -29,9 +30,7 @@ func part1(input string) string {
 	return strconv.Itoa(safeReports)
 }
 
-/**
- * Solve for Part2
- */
+// Part 2: Find the number of safe reports with a dampener.
 func part2(input string) string {
 	safeReports := 0
 
@@ -45,6 +44,9 @@ func part2(input string) string {
 	return strconv.Itoa(safeReports)
 }
 
+/* ----------------------------- Helper Methods ----------------------------- */
+
+// Parse the line into a slice of integers.
 func parseLine(line string) []int {
 	var levels []int
 	for _, level := range strings.Split(line, " ") {
@@ -54,6 +56,8 @@ func parseLine(line string) []int {
 	return levels
 }
 
+// Check if the levels are safe.
+// A level is safe if the difference between it and the next level is between 1 and 3.
 func isSafe(levels []int) bool {
 	ascending := levels[0] < levels[1]
 	for i, level := range levels[1:] {
@@ -66,6 +70,8 @@ func isSafe(levels []int) bool {
 	return true
 }
 
+// Check if the levels are safe with a dampener.
+// The dampener can remove exactly one level to make the levels safe.
 func isSafeWithDampener(levels []int) bool {
 	if !isSafe(levels) {
 		for i := 0; i < len(levels); i++ {
@@ -81,6 +87,7 @@ func isSafeWithDampener(levels []int) bool {
 	return true
 }
 
+// Check if the levels are safe.
 func areSafe(a, b int, ascending bool) bool {
 	difference := util.AbsInt(a - b)
 	return !((ascending && a > b) || (!ascending && a < b) || difference < 1 || difference > 3)

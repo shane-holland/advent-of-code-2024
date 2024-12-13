@@ -1,3 +1,6 @@
+/* -------------------------------------------------------------------------- */
+/*                         --- Day 3: Mull It Over ---                        */
+/* -------------------------------------------------------------------------- */
 package day03
 
 import (
@@ -14,9 +17,7 @@ func (d Puzzle) Solve(input string) (string, string) {
 	return part1(input), part2(input)
 }
 
-/**
- * Return the sum of the products where mul(a, b) is the product of a and b.
- */
+// Part 1: Return the sum of the products where mul(a, b) is the product of a and b.
 func part1(input string) string {
 	result := 0
 
@@ -26,10 +27,9 @@ func part1(input string) string {
 	return fmt.Sprintf("%d", result)
 }
 
-/**
- * Return the sum of the products where mul(a, b) is the product of a and b.
- * Only do this when the string when the instruction "do()" was last given, rather than "don't()".
- */
+
+// Part 2: Return the sum of the products where mul(a, b) is the product of a and b.
+// Only do this when the string when the instruction "do()" was last given, rather than "don't()".
 func part2(input string) string {
 	result := 0
 	puzzleInput := strings.ReplaceAll(input, "\n", "")
@@ -57,6 +57,8 @@ func part2(input string) string {
 
 	return fmt.Sprintf("%d", result)
 }
+
+/* ----------------------------- Helper Methods ----------------------------- */
 
 func sumProducts(input string) int {
 	sum := 0

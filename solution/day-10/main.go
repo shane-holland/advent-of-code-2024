@@ -1,3 +1,6 @@
+/* -------------------------------------------------------------------------- */
+/*                           --- Day 10: Hoof It ---                          */
+/* -------------------------------------------------------------------------- */
 package day10
 
 import (
@@ -13,9 +16,7 @@ func (d Puzzle) Solve(input string) (string, string) {
 	return part1(input), part2(input)
 }
 
-/**
- * Function to find the minimum of two integers.
- */
+// Part 1: Find the number of 9-height plots reachable from all trailHeads.
 func part1(input string) string {
 	grid := parseGrid(input)
 	trailMap := NewTopographicMap(grid)
@@ -28,9 +29,7 @@ func part1(input string) string {
 	return fmt.Sprintf("%d", scoreSum)
 }
 
-/**
- * Function to find the minimum of two integers.
- */
+// Part 2: Find the number of distinct hiking trails which begin at all trailHeads.
 func part2(input string) string {
 	grid := parseGrid(input)
 	trailMap := NewTopographicMap(grid)
@@ -44,18 +43,25 @@ func part2(input string) string {
 	return fmt.Sprintf("%d", ratingSum)
 }
 
+/* ----------------------------- Plot Definition ---------------------------- */
+// Plot represents a point on a grid, and it's corresponding height.
 type Plot struct {
 	X      int
 	Y      int
 	Height int
 }
 
+/* ------------------ TopographicMap Definition and Methods ----------------- */
+// TopographicMap represents a graph of trails and their corresponding heights.
+// It contains a list of trailheads, a map of trail edges, and the bounds of the map.
+// Trail Heads are the starting points of trails, with a height of 0.
 type TopographicMap struct {
 	TrailHeads  []Plot
 	TrailEdges  map[Plot]map[Plot]int
 	TrailBounds int
 }
 
+// score returns the number of 9-height plots reachable from the starting plot.
 func (t TopographicMap) score(start Plot) int {
 	parents := make(map[Plot]Plot)
 
@@ -77,6 +83,7 @@ func (t TopographicMap) score(start Plot) int {
 	return score
 }
 
+// rating returns the number of distinct hiking trails which begin at the starting plot.
 func (t TopographicMap) rating(start Plot) int {
 	rating := 0
 	queue := []Plot{start}
@@ -95,6 +102,9 @@ func (t TopographicMap) rating(start Plot) int {
 	return rating
 }
 
+/* ----------------------------- Helper Methods ----------------------------- */
+
+// NewTopographicMap creates a new TopographicMap from a grid of integers.
 func NewTopographicMap(grid [][]int) TopographicMap {
 	bounds := len(grid)
 	trailheads := make([]Plot, 0)
@@ -114,6 +124,7 @@ func NewTopographicMap(grid [][]int) TopographicMap {
 	return TopographicMap{trailheads, edges, bounds}
 }
 
+// getEdges returns the adjacent nodes of a given node that are one unit taller.
 func getEdges(node Plot, grid [][]int) map[Plot]int {
 	bounds := len(grid)
 	edges := make(map[Plot]int)
@@ -130,6 +141,7 @@ func getEdges(node Plot, grid [][]int) map[Plot]int {
 	return edges
 }
 
+// parseGrid parses the input string representing a grid of integers.
 func parseGrid(data string) [][]int {
 	grid := make([][]int, 0)
 	rows := strings.Split(data, "\n")

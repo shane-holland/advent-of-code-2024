@@ -1,3 +1,6 @@
+/* -------------------------------------------------------------------------- */
+/*                      --- Day 11: Plutonian Pebbles ---                     */
+/* -------------------------------------------------------------------------- */
 package day11
 
 import (
@@ -15,28 +18,19 @@ func (d Puzzle) Solve(input string) (string, string) {
 }
 
 
-/**
- * Count the number of new stones after 25 blinks.
- */
+// Part 1: Count the number of new stones after 25 blinks.
 func part1(input string) string {
 	stoneGraph := NewStoneGraph(input)
 	return fmt.Sprintf("%d", stoneGraph.Blink(25))
 }
 
-/**
- * Count the number of new stones after 75 blinks.
- */
+// Part 2: Count the number of new stones after 75 blinks.
 func part2(input string) string {
 	stoneGraph := NewStoneGraph(input)
 	return fmt.Sprintf("%d", stoneGraph.Blink(75))
 }
 
-/**
- * Creates a new StoneGraph from the given input.
- */
-func NewStoneGraph(input string) StoneGraph {
-	return StoneGraph{Stones: input, Graph: map[string][]string{"0": {"1"}}}
-}
+/* -------------------- StoneGraph Definition and Methods ------------------- */
 
 /**
  * Represents a directional graph of stones (vertices) and resulting stones from a single blink (edges).
@@ -114,4 +108,13 @@ func (g *StoneGraph) EdgesAfterSteps(start string, blinks int) int {
 		stoneCount += count
 	}
 	return stoneCount
+}
+
+/* ----------------------------- Helper Methods ----------------------------- */
+
+/**
+ * Creates a new StoneGraph from the given input.
+ */
+ func NewStoneGraph(input string) StoneGraph {
+	return StoneGraph{Stones: input, Graph: map[string][]string{"0": {"1"}}}
 }
