@@ -29,7 +29,7 @@ func main() {
 
 		// Read the input file
 		input := util.ReadFile("./data/" + path + "/data.txt")
-		fmt.Printf("🎄 Advent of Code [2024] - Day %v %v:\n", day, Solver.Icon)
+		fmt.Printf("🎄 Advent of Code [2024] - Day %v %v\n", day, Solver.Icon)
 
 		// Run the solution
 		go indicator(done)
