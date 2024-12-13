@@ -9,7 +9,7 @@ import (
 
 const PART_1_EXPECTED = "Not Implemented"
 const PART_2_EXPECTED = "Not Implemented"
-const PUZZLE_INPUT_PATH = "../../data/day-XX/test.txt"
+const PUZZLE_INPUT_PATH = "./test-data.txt"
 
 func TestPart1(t *testing.T) {
 	testInput := util.ReadFile(PUZZLE_INPUT_PATH)

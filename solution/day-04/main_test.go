@@ -9,7 +9,7 @@ import (
 
 const PART_1_EXPECTED = "18"
 const PART_2_EXPECTED = "9"
-const PUZZLE_INPUT_PATH = "../../data/day-04/test.txt"
+const PUZZLE_INPUT_PATH = "./test-data.txt"
 
 func TestPart1(t *testing.T) {
 	testInput := util.ReadFile(PUZZLE_INPUT_PATH)

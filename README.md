@@ -23,22 +23,21 @@ I've been meaning to learn Go for a few years now, and had never made the time. 
 ```
 ├── README.md              # This file
 ├── data/
-|   ├── day-01/
-|   |   ├── data.txt       # Day 1 Puzzle Input
-|   |   └── test.txt       # Day 1 Test Input
-|   └── day-02/
-|       ├── data.txt       # Day 2 Puzzle Input
-|       └── test.txt       # Day 2 Test Input
+|   ├── day-01.txt         # Day 1 Puzzle Input (Not committed)
+|   └── day-02.txt         # Day 2 Puzzle Input (Not committed)
 ├── solution/              
 |   ├── day-01/            # Solutions for Day 1
 |   |   ├── main.go
-|   |   └── main_test.go
+|   |   ├── main_test.go
+|   |   └── test-data.txt  # Day 1 Test Data
 |   ├── day-02/            # Solutions for Day 2
 |   |   ├── main.go
-|   |   └── main_test.go 
+|   |   ├── main_test.go 
+|   |   └── test-data.txt  # Day 2 Test Data
 |   ├── template/          # A template folder which can be copied 
 |   |   ├── main.go        #   for a new days puzzle
-|   |   └── main_test.go
+|   |   ├── main_test.go
+|   |   └── test-data.txt
 |   ├── solution.go        # Solution Interface
 |   └── solution-map.go    # Map of solutions
 ├── util/                  # Utility functions used across days
@@ -47,13 +46,12 @@ I've been meaning to learn Go for a few years now, and had never made the time. 
 └── go.mod                 # Go module file
 ```
 
-Each day has its own data directory containing:
-- `data.txt`: The puzzle input for the day.
-- `test.txt`: The test input for the day's puzzle.
-
-Each day also has its own solution directory containing:
+Each day has a solution directory containing:
 - `main.go`: The solution for the day's puzzle.
 - `main_test.go`: A unit test which tests the solution against the test data.
+- `test-data.txt`: The test input for the day's puzzle.
+
+Additionally, each day's real input should be stored in the `data` directory using the format `day-{nn}.txt` where `{nn}` is the current day represented as a two digit number with leading zero where applicable.
 
 ## How to Run
 1. Clone the repository:

@@ -40,3 +40,5 @@ aoc-2024
 *.prof
 *.sum
 
+# Individual puzzle data
+/data/*

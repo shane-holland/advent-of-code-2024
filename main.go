@@ -28,7 +28,7 @@ func main() {
 		done := make(chan struct{})
 
 		// Read the input file
-		input := util.ReadFile("./data/" + path + "/data.txt")
+		input := util.ReadFile("./data/" + path + ".txt")
 		fmt.Printf("🎄 Advent of Code [2024] - Day %v %v\n", day, Solver.Icon)
 
 		// Run the solution
