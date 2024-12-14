@@ -17,6 +17,7 @@ import (
 	day11 "shaneholland.dev/aoc-2024/solution/day-11"
 	day12 "shaneholland.dev/aoc-2024/solution/day-12"
 	day13 "shaneholland.dev/aoc-2024/solution/day-13"
+	day14 "shaneholland.dev/aoc-2024/solution/day-14"
 )
 
 // Solver is a struct that contains the Solution and an icon for the Advent of Code problem.
@@ -40,4 +41,5 @@ var Solutions = map[string]Solver{
 	"day-11": {day11.Puzzle{}, "🪨"},
 	"day-12": {day12.Puzzle{}, "🪴"},
 	"day-13": {day13.Puzzle{}, "🕹️"},
+	"day-14": {day14.Puzzle{}, "🚽"},
 }

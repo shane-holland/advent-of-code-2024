@@ -41,4 +41,4 @@ aoc-2024
 *.sum
 
 # Individual puzzle data
-/data/*
+/data/*.txt
