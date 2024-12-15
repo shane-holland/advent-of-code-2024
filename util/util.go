@@ -44,7 +44,6 @@ func GetColumns(input string) []string {
 	return columns
 }
 
-
 /**
  * Function to return the Integer value of a string, or exit the program if the string is not an integer.
  */
