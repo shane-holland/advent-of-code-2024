@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"strconv"
 	"time"
 
 	"shaneholland.dev/aoc-2024/solution"
@@ -23,6 +24,48 @@ func main() {
 	day := args["day"]
 	path := fmt.Sprintf("day-%s", formatDay(day))
 
+	if day == "all" {
+		paths := make([]string, len(solution.Solutions))
+		for path := range solution.Solutions {
+			day := util.AtoI(path[4:])
+			paths[day-1] = path
+		}
+		for day, path := range paths {
+			RunSolution(strconv.Itoa(day+1), path)
+			fmt.Println()
+		}
+	} else {
+		RunSolution(day, path)
+	}
+}
+
+/* ----------------------------- Helper Methods ----------------------------- */
+
+// Get the command line arguments and return them as a map.
+func getArgs() map[string]string {
+	args := make(map[string]string)
+
+	// Flags Definitions
+	day := flag.String("day", "all", "The day of the Advent of Code challenge to run.")
+	
+	// Parse Flags
+	flag.Parse()
+
+	// Populate the args Map
+	args["day"] = *day
+
+	return args
+}
+
+// Ensure the day string is formatted correctly.
+func formatDay(day string) string {
+	if len(day) == 1 {
+		return "0" + day
+	}
+	return day
+}
+
+func RunSolution(day, path string) {
 	if Solver, ok := solution.Solutions[path]; ok {
 		start := time.Now()
 		done := make(chan struct{})
@@ -41,32 +84,6 @@ func main() {
 	} else {
 		log.Fatalf("Invalid day specified. No solution exists for day %s.\n", day)
 	}
-}
-
-/* ----------------------------- Helper Methods ----------------------------- */
-
-// Get the command line arguments and return them as a map.
-func getArgs() map[string]string {
-	args := make(map[string]string)
-
-	// Flags Definitions
-	day := flag.String("day", "01", "The day of the Advent of Code challenge to run.")
-	
-	// Parse Flags
-	flag.Parse()
-
-	// Populate the args Map
-	args["day"] = *day
-
-	return args
-}
-
-// Ensure the day string is formatted correctly.
-func formatDay(day string) string {
-	if len(day) == 1 {
-		return "0" + day
-	}
-	return day
 }
 
 func Solve(Solver solution.Solution, input string, done chan struct{}) {
