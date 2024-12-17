@@ -20,7 +20,7 @@ func (d Puzzle) Solve(input string) (string, string) {
 // Part 1: Find the number of points visited before the guard leaves the area
 func part1(input string) string {
 	patrolMap := parsePatrolMap(input)
-	return fmt.Sprintf("%d", patrolMap.PointsVisited())
+	return fmt.Sprintf("%d", patrolMap.CountPointsVisited())
 }
 
 // Part 2: Find the number of obstacles that can cause the guard to loop
@@ -41,8 +41,18 @@ type PatrolMap struct {
 }
 
 // PointsVisited returns the number of points visited before the guard leaves the area.
-func (pm *PatrolMap) PointsVisited() int {
-	visited := make(map[util.Point]int)
+func (pm *PatrolMap) CountPointsVisited() int {
+	visited := pm.PointsVisited()
+	if len(visited) > 0 {
+		return len(visited)
+	}
+	// Loop encountered
+	return -1
+}
+
+// Returns the unique set of points visisted by the guard
+func (pm *PatrolMap) PointsVisited() []util.Point {
+	visited := map[util.Point]int{pm.GuardPosition: pm.Direction}
 
 	for {
 		lastPos := pm.GuardPosition
@@ -55,11 +65,15 @@ func (pm *PatrolMap) PointsVisited() int {
 
 		// Loop check
 		if dir, ok := visited[pm.GuardPosition]; ok && dir == pm.Direction {
-			return -1
+			return make([]util.Point, 0)
 		}
 
 		if pm.GuardPosition.X < 0 || pm.GuardPosition.Y < 0 || pm.GuardPosition.X >= pm.Bounds.X || pm.GuardPosition.Y >= pm.Bounds.Y {
-			return len(visited)
+			points := make([]util.Point, 0)
+			for p := range visited {
+				points = append(points, p)
+			}
+			return points
 		}
 		visited[pm.GuardPosition] = pm.Direction
 	}
@@ -83,21 +97,20 @@ func (pm *PatrolMap) PositionsWhichCauseALoop() int {
 	loopObstacles := make([]util.Point, 0)
 	original := PatrolMap{pm.GuardPosition, pm.Obstacles, pm.Direction, pm.Bounds}
 
+	// Resets the patrol map for the next test
 	reset := func() PatrolMap {
 		return PatrolMap{original.GuardPosition, original.Obstacles, original.Direction, original.Bounds}
 	}
 
-	for y := 0; y < pm.Bounds.Y; y++ {
-		for x := 0; x < pm.Bounds.X; x++ {
-			if (!slices.Contains(pm.Obstacles, util.Point{X: x, Y: y})) {
-				// Reset the map
-				*pm = reset()
-				pm.Obstacles = append(pm.Obstacles, util.Point{X: x, Y: y})
-				// Loop discovered
-				if pm.PointsVisited() == -1 {
-					loopObstacles = append(loopObstacles, util.Point{X: x, Y: y})
-				}
-			}
+	// Only test positions we know the guard will normally visit
+	testPositions := pm.PointsVisited()
+	for _, pos := range testPositions {
+		// Reset the map
+		*pm = reset()
+		pm.Obstacles = append(pm.Obstacles, util.Point{X: pos.X, Y: pos.Y})
+		// Loop discovered
+		if pm.CountPointsVisited() == -1 {
+			loopObstacles = append(loopObstacles, util.Point{X: pos.X, Y: pos.Y})
 		}
 	}
 
