@@ -70,3 +70,7 @@ type Point struct {
 	X int
 	Y int
 }
+
+func ManhattanDistance(p1, p2 Point) int {
+	return AbsInt(p1.X - p2.X) + AbsInt(p1.Y - p2.Y)
+}
